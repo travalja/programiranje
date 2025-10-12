@@ -1,4 +1,4 @@
-
+STOP_WORDS = ['i', 'u', 'na', 'je', 'se', 'su', 's', 'za', 'o', 'a', 'pa', 'te', 'li', 'da']
 
 
 # Funkcija za učitavanje teksta iz datoteke
@@ -24,7 +24,6 @@ def ocisti_tekst (tekst):
 
 
 def broji_rijeci(lista_rijeci):
-    #
     brojac_rijeci = {}
     for rijec in lista_rijeci:
         if rijec in brojac_rijeci:
@@ -34,6 +33,23 @@ def broji_rijeci(lista_rijeci):
     return brojac_rijeci
 
 
+
+def ukloni_stop_words(rjecnik_frekvencija, stop_words_lista):
+    ocisceni_rjecnik = {}
+    for rijec, frekvencija in rjecnik_frekvencija.items():
+        if rijec not in stop_words_lista:
+            ocisceni_rjecnik[rijec] = frekvencija
+    return ocisceni_rjecnik
+
+
+def sortiraj_i_ispisi(rjecnik_frekvencija, broj_rijeci=15):
+    # Sortiranje po broju pojavljivanja (od najvećeg prema najmanjem)
+    sortirana_lista = sorted(rjecnik_frekvencija.items(),key=lambda x: x[1],reverse=True)
+
+    print(f"\n--- Najčešćih {broj_rijeci} riječi u tekstu ---")
+    for rijec, frekvencija in sortirana_lista[:broj_rijeci]:
+        print(f"{rijec}: {frekvencija}")
+       
 
 if __name__== "__main__":
     filepath = "tekst.txt"
@@ -46,6 +62,7 @@ if __name__== "__main__":
         print("Greska pri ucitavanju datoteke")
     
     ucitani_tekst = ocisti_tekst(ucitani_tekst)
+
     if ucitani_tekst:
         print("Očišćeni tekst je:")
         print(ucitani_tekst)
@@ -55,6 +72,3 @@ if __name__== "__main__":
         print(brojac_rijeci)
     else:
         print ("Greška pri čišćenju teksta.")
-
-
-
